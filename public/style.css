@@ -119,11 +119,11 @@ p.overlay {
 
 .robotstreamer::before {
     color: #1dd1a1;
-    width:24px;
-    height:24px;
+    width:22px;
+    height:22px;
     display:inline-block;
     background-image: url("./robotstreamer.svg");
-    background-size: 24px 24px;
+    background-size: 22px 22px;
     content: ' ';
 }
 
