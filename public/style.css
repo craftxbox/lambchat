@@ -117,8 +117,14 @@ p.overlay {
     color: #4c8cff;
 }
 
-.fa-robot {
+.robotstreamer::before {
     color: #1dd1a1;
+    width:24px;
+    height:24px;
+    display:inline-block;
+    background-image: url("./robotstreamer.svg");
+    background-size: 24px 24px;
+    content: ' ';
 }
 
 @keyframes fadeOut {

@@ -31,7 +31,7 @@ function eventHandler(e: MessageEvent) {
     let nickColor = (data.username as string).split("").reduce((a, b) => a + b.charCodeAt(0), 0) % 8;
 
     append(
-        `<i class="fa-solid fa-robot"></i> <span class="display-color-${nickColor}">&lt${data.username}&gt</span> ${htmlOn ? data.message : he.encode(data.message)}\n`,
+        `<i class="robotstreamer"></i> <span class="display-color-${nickColor}">&lt${data.username}&gt</span> ${htmlOn ? data.message : he.encode(data.message)}\n`,
         "robotstreamer-" + data.user_id,
     );
     dispatch("robotstreamer", `<${data.username}> ${data.message}`);
@@ -60,7 +60,7 @@ function connectRS() {
         reconnectBackoff = 0;
 
         document.getElementById("robotstreamer-lost")?.remove();
-        append(`<i class="fa-solid fa-robot"></i> <span>Connection established.</span>`, "robotstreamer-connected");
+        append(`<i class="robotstreamer"></i> <span>Connection established.</span>`, "robotstreamer-connected");
         setTimeout(() => {
             document.getElementById("robotstreamer-connected")?.remove();
         }, 2000);
@@ -78,11 +78,11 @@ function closeHandler(event: Event) {
     clearInterval(bufferLoopInterval);
     if (event instanceof CloseEvent) {
         append(
-            `<i class="fa-solid fa-robot"></i> <span>Socket closed (${event.code}), reconnecting in ${reconnectBackoff}s</span>`,
+            `<i class="robotstreamer"></i> <span>Socket closed (${event.code}), reconnecting in ${reconnectBackoff}s</span>`,
             "robotstreamer-lost",
         );
     } else {
-        append(`<i class="fa-solid fa-robot"></i> <span>Socket lost, reconnecting in ${reconnectBackoff}s</span>`, "robotstreamer-lost");
+        append(`<i class="robotstreamer"></i> <span>Socket lost, reconnecting in ${reconnectBackoff}s</span>`, "robotstreamer-lost");
         console.log(event);
     }
 
