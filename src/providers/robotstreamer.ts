@@ -23,8 +23,12 @@ function eventHandler(e: MessageEvent) {
     
     if (data.type === "your_info") {
         uname = JSON.parse(data.message).user_name;
+        return;
     }
     
+    if (data.robot_id !== robotId) return;
+    if (data.owner_id !== ownerId) return;
+
     if (data.username === uname) return;
     if (data.username === "[RS BOT]") return;
 
