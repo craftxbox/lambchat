@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+* Multi-stream chat aggregator for Owncast and Sheepchat.
+* Copyright (C) 2024 craftxbox
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+* Usage:
+* chatview.html/
+*       ?overlay = [true|false] (default: false) - Enable background transparency for use in OBS
+*       &showLinks = [true|false] (default: false) - Show links in chat (else they will become [Link Removed])
+*       &corsProxy = [https://corsproxy.io/?] - CORS proxy to use for fetching images.
+*       &owncastUri = <owncast.example.com> - Base URI of Owncast instance
+*       &owncastToken = <token> - Owncast access token. See https://owncast.online/thirdparty/apis/. Only "User Chat Messages" scope is required.
+*       &sheepUri = [127.0.0.1:49135] - Base URI of Sheepchat instance. You do not need to add this by default.
+*       &sheepRoom = <g76561198091287090-aogokni5> - Sheepchat "room" to join. This is the part after the "#" in the chat widget URL.
+*                                                    Found on Settings -> Stream Output -> Widgets -> Chat Widget
+*       &ircUri = [irc.example.com:6698] - Base URI of IRC server. Optional, will not connect by default. 
+*                                          The Server used MUST support Websockets in TEXT MODE. (very few do)
+*       &ircChannel = <#channel> - IRC channel to join. Optional, will not connect by default.
+*       &ircAdmin = <username> - IRC hostmask to use for admin commands.
+*       &bridgeOn = [true|false] (default: false) - Enable bridging of messages from Sheepchat to Owncast and IRC.
+*
+* For any help with setup, reach me on discord: https://discord.gg/Mu33sKU2KC
+* Or on Mastodon: https://transfur.social/@craftxbox
+-->
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/craftxbox/openwebicons@814597b/css/openwebicons-cdn.min.css">
+
+    <title>ChatView</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="chat">
+
+    </div>
+</body>
+<script type="module" src="src/index.ts"></script>
+</html>
+<!--<script>
+    const socket = io(params.get("sheepUri") || "ws://127.0.0.1:49135", {
+        forceNew: true,
+        reconnect: true,
+        secure: true,
+        path: "/socket.io/",
+        transports: ['polling', 'websocket'],
+        upgrade: true,
+        query: {
+            session_id: Date.now(),
+            device_type: "listener",
+            os: "none",
+            pc_name: "none",
+            room: params.get("sheepRoom")
+        }
+    });
+
+    socket.on('connect', () => {
+        socket.emit("message", { event: "join", data: {} })
+
+    });
+    socket.on('message', (data) => {
+        let event = data.event
+        data = data.data;
+        switch (event) {
+            case "joined":
+                if (data.sender) {
+                    //socket.emit("message", { event: "fetch", data: {}, socket_select: data.sender, method: "history" })
+                }
+                break;
+            case "broadcast":
+                if (data.broadcast_event != "message") return;
+                append(`<i class="fa-brands fa-${data.type}"></i> <span style="color:${data.color}">&lt;${data.nick}&gt;</span> ${htmlOn ? he.decode(he.decode(data.text)) : he.decode(data.text)}\n`)
+                break;
+        }
+        console.log(data)
+    });
+</script>-->

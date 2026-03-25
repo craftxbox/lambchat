@@ -1,0 +1,27 @@
+{
+  "name": "lambchat",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/he": "^1.2.3",
+    "@types/socket.io-client": "^1.4.36",
+    "@types/validator": "^13.15.10",
+    "@types/xmpp__client": "^0.14.1",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@xmpp/client": "^0.13.1",
+    "dompurify": "^3.0.8",
+    "he": "^1.2.0",
+    "socket.io-client": "<3.0.0",
+    "validator": "^13.15.26",
+    "youtube-chat": "^2.2.0"
+  }
+}
