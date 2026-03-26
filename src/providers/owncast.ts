@@ -136,6 +136,7 @@ function connectOwncast() {
 function closeHandler(event: Event) {
     unsubscribe("owncast");
     clearInterval(bufferLoopInterval);
+    document.getElementById("owncast-lost")?.remove();
     if (event instanceof CloseEvent) {
         append(
             `<i class="fa-solid fa-tower-broadcast"></i> <span>Socket closed (${event.code}), reconnecting in ${reconnectBackoff}s</span>`,

@@ -146,6 +146,7 @@ function connectIrc() {
 function closeHandler(event: Event) {
     unsubscribe("irc");
     clearInterval(bufferLoopInterval);
+    document.getElementById("irc-lost")?.remove();
     if (event instanceof CloseEvent) {
         append(`<i class="fa-solid fa-computer"></i> <span>Socket closed (${event.code}), reconnecting in ${reconnectBackoff}s</span>`, "irc-lost");
     } else {

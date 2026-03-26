@@ -80,6 +80,7 @@ function connectRS() {
 function closeHandler(event: Event) {
     unsubscribe("robotstreamer");
     clearInterval(bufferLoopInterval);
+    document.getElementById("robotstreamer-lost")?.remove();
     if (event instanceof CloseEvent) {
         append(
             `<i class="robotstreamer"></i> <span>Socket closed (${event.code}), reconnecting in ${reconnectBackoff}s</span>`,

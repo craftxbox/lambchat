@@ -32,6 +32,7 @@ socket.on("connect", () => {
 });
 
 socket.on("disconnect", () => {
+    document.getElementById("owncast-lost")?.remove();
     append(`<i class="fa-solid fa-cow"></i> <span>Connection lost.</span>\n`, "sheep-lost");
 });
 

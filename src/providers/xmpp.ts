@@ -103,6 +103,7 @@ function connectXmpp() {
         subscribe("xmpp", subscriber);
     });
     xmpp.on("error", (err) => {
+        document.getElementById("owncast-lost")?.remove();
         append(`<i class="openwebicons-xmpp"></i> <span>Connection lost (client error).</span>`, "xmpp-lost");
         console.error(err);
         unsubscribe("xmpp");
