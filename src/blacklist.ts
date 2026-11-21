@@ -16,6 +16,7 @@ const blacklist = [
     atob("em9vLj8ocHJpZGV8c2V4dWFsKQ=="), //zeta
     "\u03b6|\u0396", // literally zeta
     "anondrop",
+    "streamboo|twitch \.ad", //viewbot service
 ];
 
 export function checkBlacklist(contents: string) {

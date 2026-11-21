@@ -50,13 +50,13 @@ function eventHandler(e: MessageEvent) {
                 .reduce((a, b) => a + b.charCodeAt(0), 0) % 8;
     } else nickColor = 1;
 
-    if (uid.startsWith(":chatview-")) return;
+    if (uid.startsWith(":justinfan")) return;
 
     let command = data.split(" ")[1];
     switch (command) {
         case "PRIVMSG":
             let nick = uid.split("!")[0].substring(1);
-            if (nick.startsWith("chatview-")) return;
+            if (nick.startsWith("justinfan")) return;
             console.log(data, data.split(":"));
             let channel = data.split(" ")[2];
             if (channel != params.get("twitchChannel")) return;
@@ -97,6 +97,7 @@ function eventHandler(e: MessageEvent) {
             break;
         case "JOIN":
             let joinNick = uid.split("!")[0].substring(1);
+            if(joinNick.startsWith("justinfan")) return;
             append(
                 `<i class="fa-brands fa-twitch"></i> <span class="display-color-${nickColor}">${joinNick}</span> joined the chat.\n`,
                 uid.split("!")[1].split("@")[0],
