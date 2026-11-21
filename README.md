@@ -8,5 +8,5 @@ Tenative list of supported platforms:
 - XMPP
 - IRC (via IRCoWS)
 - Twitch (read only, via IRCoWS)
-- RobotStreamer (not fully tested, works for read)
-- Anything supported by [Sheepchat](https://sheep.chat/en/) (hence the name/working title "lambchat"), namely Youtube.
+- RobotStreamer
+- Anything supported by [Sheepchat](https://sheep.chat/en/) (hence the name/working title "lambchat"), namely Youtube. (read only)
