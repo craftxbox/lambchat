@@ -21,8 +21,10 @@
 *       ?overlay = [true|false] (default: false) - Enable background transparency for use in OBS
 *       &showLinks = [true|false] (default: false) - Show links in chat (else they will become [Link Removed])
 *       &corsProxy = [https://corsproxy.io/?] - CORS proxy to use for fetching images.
+*
 *       &owncastUri = <owncast.example.com> - Base URI of Owncast instance
 *       &owncastToken = <token> - Owncast access token. See https://owncast.online/thirdparty/apis/. Only "User Chat Messages" scope is required.
+*
 *       &sheepUri = [127.0.0.1:49135] - Base URI of Sheepchat instance. You do not need to add this by default.
 *       &sheepRoom = <g76561198091287090-aogokni5> - Sheepchat "room" to join. This is the part after the "#" in the chat widget URL.
 *                                                    Found on Settings -> Stream Output -> Widgets -> Chat Widget
@@ -30,6 +32,18 @@
 *                                          The Server used MUST support Websockets in TEXT MODE. (very few do)
 *       &ircChannel = <#channel> - IRC channel to join. Optional, will not connect by default.
 *       &ircAdmin = <username> - IRC hostmask to use for admin commands.
+*
+*       &rsOwner = <number> - RobotStreamer User ID to bind to, only messages from robots owned by this ID will be shown. Optional, will not connect by default.
+*       &rsRobot = <number> - RobotStreamer Robot ID to bind to. Optional, will be read-only if omitted.
+*       &rsToken = <token>  - Authentication token for RobotStreamer. Optional, will be read-only if omitted.
+*
+*       &xmppUsername = <JID> - XMPP Jid to authenticate with. Optional, will not connect by default.
+*       &xmppPassword = <password> - Password to log into the Jid with. Optional, will not connect by default.
+*       &xmppMuc = <JID> - XMPP Multi User Chat to bind join. Optional, will not connect by default.
+*       &xmppServer = <url> - Which XMPP server to connect. Must be a wss:// url to RFC 7395 compatible server. Optional, will not connect by default.
+*
+*       &twitchChannel = <#channel> - Twitch channel to join. Optional, will not connect by default.
+*
 *       &bridgeOn = [true|false] (default: false) - Enable bridging of messages from Sheepchat to Owncast and IRC.
 -->
 <!-- TODO update the usage.
