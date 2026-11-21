@@ -1,9 +1,11 @@
 import he from "he";
 import { append, dispatch, subscribe, unsubscribe } from "../main";
-import { htmlOn } from "../settings";
+import { htmlOn, params } from "../settings";
 
-const robotId = "8776";
-const ownerId = "27";
+const robotId = params.get("rsRobot");
+const ownerId = params.get("rsOwner");
+
+const token = params.get("rsToken") || null;
 
 let buffer: string[] = [];
 let reconnectBackoff = 0;
@@ -15,7 +17,7 @@ let uname = "";
 
 function subscriber(source: string, content: string) {
     if (source == "robotstreamer") return;
-    buffer.push(`[${source}] ${content}`);
+    buffer.push(`〔${source}〕 ${content.replace("[", "〔").replace("]", "〕")}`);
 }
 
 function eventHandler(e: MessageEvent) {
@@ -26,7 +28,7 @@ function eventHandler(e: MessageEvent) {
         return;
     }
     
-    if (data.robot_id !== robotId) return;
+    // if (data.robot_id !== robotId) return;
     if (data.owner_id !== ownerId) return;
 
     if (data.username === uname) return;
@@ -54,7 +56,7 @@ function bufferLoop() {
         msg = msg.replaceAll(/ ?(https?:\/\/www.youtube.com\/s\/\S+) ?/gi, `[x]`);
         msg = msg.replaceAll(/&gt; (\[x] ?)+$/gi, `> [Message contained only Emoji]`);
 
-        ws.send(JSON.stringify({ message: msg, robot_id: robotId, owner_id: ownerId, tts_price: 0 }));
+        ws.send(JSON.stringify({ message: he.encode(msg), robot_id: robotId, owner_id: ownerId, tts_price: 0 }));
     }
 }
 
@@ -72,6 +74,7 @@ function connectRS() {
         bufferLoopInterval = setInterval(bufferLoop, 125);
         subscribe("robotstreamer", subscriber);
         ws.onmessage = eventHandler;
+        if (token) ws.send(JSON.stringify({type:"connect",message:"joined",robot_id:robotId,owner_id:ownerId,token:token}));
     };
 
     ws.onclose = closeHandler;
