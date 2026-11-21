@@ -4,14 +4,12 @@ import { params, htmlOn } from "../settings";
 import { client, xml, type Client } from "@xmpp/client";
 import type { Element as XElement } from "ltx";
 
-export const ircUri = params.get("ircUri") || null;
-
 let buffer: string[] = [];
 let bufferLoopInterval: NodeJS.Timeout = null as unknown as NodeJS.Timeout;
 
 let xmpp: Client = null as unknown as Client;
 
-let muc = "stream@xmpp.crxb.cc";
+let muc = "stream@xmpp.crxb.cc"; // TODO settingsify this
 
 function bufferLoop() {
     if (buffer.length > 0 && xmpp.status == "online") {
@@ -76,6 +74,13 @@ async function sendMessage(message: string) {
 }
 
 function connectXmpp() {
+    if (!params.get("xmppUsername") || !params.get("xmppPassword")) {
+        console.log("No XMPP username or password specified, skipping connection.");
+        return;
+    }
+
+    //TODO short circuit if no service/muc specified
+
     xmpp = client({
         service: "wss://crxb.cc/prosody/xmpp-websocket", //todo settingsify this
         domain: "crxb.cc",

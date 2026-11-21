@@ -3,7 +3,10 @@ import { params, htmlOn } from "../settings";
 import { append } from "../main";
 import he from "he";
 
-const socket = io(params.get("sheepUri") || "ws://127.0.0.1:49135", {
+const sheepRoom = params.get("sheepRoom");
+const sheepUri = params.get("sheepUri");
+
+const socket = io(sheepUri || "ws://127.0.0.1:49135", {
     forceNew: true,
     reconnection: true,
     reconnectionAttempts: Infinity,
@@ -18,7 +21,7 @@ const socket = io(params.get("sheepUri") || "ws://127.0.0.1:49135", {
         device_type: "listener",
         os: "none",
         pc_name: "none",
-        room: params.get("sheepRoom"),
+        room: sheepRoom,
     },
 });
 
@@ -56,4 +59,9 @@ socket.on("message", (data: any) => {
     console.log(data);
 });
 
-socket.connect();
+
+if (sheepRoom && sheepUri) {
+    socket.connect();
+} else {
+    console.log("No SheepChat room or URI specified, skipping connection.");
+}

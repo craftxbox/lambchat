@@ -5,6 +5,8 @@ import { params, htmlOn } from "../settings";
 
 // it's basically irc.ts but mildly lobotomized for twitch via anonymous irc
 
+const twitchChannel = params.get("twitchChannel");
+
 // let buffer: string[] = [];
 let reconnectBackoff = 0;
 let reconnectTimeout: NodeJS.Timeout = null as unknown as NodeJS.Timeout;
@@ -59,7 +61,7 @@ function eventHandler(e: MessageEvent) {
             if (nick.startsWith("justinfan")) return;
             console.log(data, data.split(":"));
             let channel = data.split(" ")[2];
-            if (channel != params.get("twitchChannel")) return;
+            if (channel != twitchChannel) return;
 
             let chanstringlen = ("PRIVMSG " + channel + " :").length;
             let message = data.substring(data.indexOf("PRIVMSG " + channel + " :") + chanstringlen);
@@ -117,13 +119,19 @@ function eventHandler(e: MessageEvent) {
 }
 
 function connectIrc() {
+
+    if (!twitchChannel) {
+        console.log("No Twitch channel specified, skipping connection.");
+        return;
+    }
+
     ws = new WebSocket("wss://irc-ws.chat.twitch.tv" /*, ["text.ircv3.net"]*/);
     ws.onopen = function (_) {
         reconnectBackoff = 0;
 
         ws.send("CAP REQ :twitch.tv/membership\r\n");
         ws.send("NICK justinfan001\r\n");
-        ws.send("JOIN " + params.get("twitchChannel") + "\r\n");
+        ws.send("JOIN " + twitchChannel + "\r\n");
 
         document.querySelectorAll("#twitch-lost").forEach((el) => el.remove());
         append(`<i class="fa-brands fa-twitch"></i> <span>Connection established.</span>`, "twitch-connected");

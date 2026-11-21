@@ -4,6 +4,7 @@ import { secure, params, htmlOn } from "../settings";
 import { processCommand } from "../moderator";
 
 export const ircUri = params.get("ircUri") || null;
+const ircChannel = params.get("ircChannel") || null;
 
 let buffer: string[] = [];
 let reconnectBackoff = 0;
@@ -26,7 +27,7 @@ function bufferLoop() {
         msg = msg.replaceAll(/ ?(https?:\/\/www.youtube.com\/s\/\S+) ?/gi, `[x]`);
         msg = msg.replaceAll(/> (\[x] ?)+$/gi, `> [Message contained only Emoji]`);
 
-        ws.send("PRIVMSG " + params.get("ircChannel") + " :" + msg + "\r\n");
+        ws.send("PRIVMSG " + ircChannel + " :" + msg + "\r\n");
     }
 }
 
@@ -42,7 +43,7 @@ function eventHandler(e: MessageEvent) {
         ws.send("PONG " + data.split(" ")[1] + "\r\n");
         if (!ready) {
             ws.send("USER chatview 0 * :chatview\r\n");
-            ws.send("JOIN " + params.get("ircChannel") + "\r\n");
+            ws.send("JOIN " + ircChannel + "\r\n");
         }
         ready = true;
     }
@@ -66,7 +67,7 @@ function eventHandler(e: MessageEvent) {
             if (nick.startsWith("chatview-")) return;
             console.log(data, data.split(":"));
             let channel = data.split(" ")[2];
-            if (channel != params.get("ircChannel")) return;
+            if (channel != ircChannel) return;
 
             let chanstringlen = ("PRIVMSG " + channel + " :").length;
             let message = data.substring(data.indexOf("PRIVMSG " + channel + " :") + chanstringlen);
@@ -123,6 +124,17 @@ function eventHandler(e: MessageEvent) {
 }
 
 function connectIrc() {
+
+    if (!ircUri) {
+        console.log("No IRC URI specified, skipping connection.");
+        return;
+    }
+
+    if (!ircChannel) {
+        console.log("No IRC channel specified, skipping connection.");
+        return;
+    }
+
     ws = new WebSocket((secure ? "wss://" : "ws://") + ircUri, ["text.ircv3.net"]);
     ws.onopen = function (_) {
         reconnectBackoff = 0;

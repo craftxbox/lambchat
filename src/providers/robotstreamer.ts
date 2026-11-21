@@ -49,6 +49,8 @@ function bufferLoop() {
 
         if (!msg) return;
 
+        if (!token || !robotId) return;
+
         msg = msg.trim();
         msg = msg.replaceAll(/ ?(https?:\/\/static-cdn.jtvnw.net\S+) ?/gi, `[x]`);
         msg = msg.replaceAll(/ ?(https?:\/\/cdn.betterttv.net\S+) ?/gi, `[x]`);
@@ -61,6 +63,12 @@ function bufferLoop() {
 }
 
 function connectRS() {
+
+    if (!ownerId) {
+        console.log("No RobotStreamer owner ID specified, skipping connection.");
+        return;
+    }
+
     ws = new WebSocket("wss://208-113-134-124.robotstreamer.com:8765");
     ws.onopen = function (_) {
         reconnectBackoff = 0;
@@ -74,7 +82,10 @@ function connectRS() {
         bufferLoopInterval = setInterval(bufferLoop, 125);
         subscribe("robotstreamer", subscriber);
         ws.onmessage = eventHandler;
-        if (token) ws.send(JSON.stringify({type:"connect",message:"joined",robot_id:robotId,owner_id:ownerId,token:token}));
+
+        if (token && robotId) ws.send(JSON.stringify({type:"connect",message:"joined",robot_id:robotId,owner_id:ownerId,token:token}));
+        else if (!token) console.log("No RobotStreamer token specified, operating read-only.");
+        else if (!robotId) console.log("No RobotStreamer robot ID specified, operating read-only.");
     };
 
     ws.onclose = closeHandler;

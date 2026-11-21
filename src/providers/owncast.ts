@@ -115,6 +115,17 @@ function bufferLoop() {
 }
 
 function connectOwncast() {
+
+    if (!owncastUri) {
+        console.log("No Owncast URI specified, skipping connection.");
+        return;
+    }
+
+    if (!owncastToken) {
+        console.log("No Owncast access token specified, skipping connection.");
+        return;
+    }
+
     ws = new WebSocket((secure ? "wss://" : "ws://") + owncastUri + "/ws?accessToken=" + owncastToken);
     ws.onopen = function (_) {
         reconnectBackoff = 0;
