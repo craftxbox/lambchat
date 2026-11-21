@@ -81,13 +81,13 @@ function eventHandler(e: MessageEvent) {
             if (message.startsWith("ACTION")) {
                 message = message.replace("ACTION ", "").replace("", "");
                 append(
-                    `<i class="fa-solid fa-computer"></i> <span class="display-color-${nickColor}"><strong>${nick}</strong>&nbsp; ${htmlOn ? message : he.encode(message)}</span>\n`,
+                    `<i class="fa-solid fa-computer"></i> <span class="display-color-${nickColor}"><strong>${nick}</strong>&nbsp; ${htmlOn ? message.trim() : he.encode(message.trim())}</span>\n`,
                     "irc-" + uid.split("!")[1].split("@")[0],
                 );
                 dispatch("irc", `* ${nick} ${message}`);
             } else {
                 append(
-                    `<i class="fa-solid fa-computer"></i> <span class="display-color-${nickColor}">&lt${nick}&gt;</span> ${htmlOn ? message : he.encode(message)}\n`,
+                    `<i class="fa-solid fa-computer"></i> <span class="display-color-${nickColor}">&lt${nick}&gt;</span> ${htmlOn ? message.trim() : he.encode(message.trim())}\n`,
                     "irc-" + uid.split("!")[1].split("@")[0],
                 );
                 dispatch("irc", `<${nick}> ${message}`);
